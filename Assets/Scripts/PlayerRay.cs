@@ -1,21 +1,21 @@
 ﻿using UnityEngine;
-[RequireComponent(typeof(BuildPreviewController))]
+[RequireComponent(typeof(BuildPreviewPosition))]
 public class PlayerRay : MonoBehaviour
 {
     [SerializeField] private Camera _playerCamera;
 
-    private BuildPreviewController _previewController;
+    private BuildPreviewPosition _previewPosition;
    
     void Start()
     {
-        _previewController = GetComponent<BuildPreviewController>();
+        _previewPosition = GetComponent<BuildPreviewPosition>();
     }
     void Update()
     {
         Ray ray = new Ray(_playerCamera.transform.position, _playerCamera.transform.forward * 10);
         Debug.DrawRay(_playerCamera.transform.position, _playerCamera.transform.forward * 10, Color.cyan);
-
         RaycastHit hit;
+        
         if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo))
         {
             GetFace(hit, _facesInfo);
@@ -29,47 +29,40 @@ public class PlayerRay : MonoBehaviour
         
         GameObject hitGameObject = hit.collider.gameObject;
         Transform hitTransform = hitGameObject.transform;
-        bool faceState;
-       
+      
         if (hit.normal == hitTransform.right)
         {
-            faceState = facesInfo._facesInfo[0];
-            _previewController.ShowPreview(hitTransform, 0,1, faceState);
+            _previewPosition.ShowPreview(hitTransform, 0,1);
             
         }  
         
         if (hit.normal == hitTransform.up)
         {
-            faceState = facesInfo._facesInfo[1];
-            _previewController.ShowPreview(hitTransform, 1,1, faceState);
+            _previewPosition.ShowPreview(hitTransform, 1,1);
             
         }  
         
         if (hit.normal == hitTransform.forward)
         {
-            faceState = facesInfo._facesInfo[2];
-            _previewController.ShowPreview(hitTransform, 2,1, faceState);
+            _previewPosition.ShowPreview(hitTransform, 2,1);
             
         }   
         
         if (hit.normal == -hitTransform.right)
         {
-            faceState = facesInfo._facesInfo[3];
-            _previewController.ShowPreview(hitTransform, 3,-1, faceState);
+            _previewPosition.ShowPreview(hitTransform, 3,-1);
             
         }  
         
         if (hit.normal == -hitTransform.up)
         {
-            faceState = facesInfo._facesInfo[4];
-            _previewController.ShowPreview(hitTransform, 4,-1, faceState);
+            _previewPosition.ShowPreview(hitTransform, 4,-1);
             
         }      
         
         if (hit.normal == -hitTransform.forward)
         {
-            faceState = facesInfo._facesInfo[5];
-            _previewController.ShowPreview(hitTransform, 5,-1, faceState);
+            _previewPosition.ShowPreview(hitTransform, 5,-1);
             
         }    
         

@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
-
-public class BuildPreviewController : MonoBehaviour
+[RequireComponent(typeof(RotatePreview))]
+public class BuildPreviewPosition : MonoBehaviour
 {
-   public GameObject BuildPreview;
-   [SerializeField] private Material _ableToBuild, _unableToBuild;
-
-   public void ShowPreview(Transform dockerObject, int faceNum, int faceDirectionSign, bool faceState)
+   [HideInInspector] public GameObject BuildPreview;
+   
+   public void ShowPreview(Transform dockerObject, int faceNum, int faceDirectionSign)
    {
       BuildPreview.GetComponent<MeshRenderer>().enabled = true;
-      ChangePreviewMaterial(faceState);
 
       if(faceNum == 0 || faceNum == 3)
       {
@@ -25,20 +23,6 @@ public class BuildPreviewController : MonoBehaviour
          OnUp(dockerObject, faceDirectionSign);
       }
    }
-
-   void ChangePreviewMaterial(bool faceState)
-   {
-      if (faceState == true)
-      {
-         BuildPreview.GetComponent<MeshRenderer>().material = _ableToBuild;
-      }
-      else
-      {
-         BuildPreview.GetComponent<MeshRenderer>().material = _unableToBuild;
-      }
-
-   }
-
    void OnForward(Transform dockerObject, int faceDirectionSign)
    {
       BuildPreview.transform.position =
