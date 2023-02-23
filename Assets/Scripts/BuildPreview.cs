@@ -12,10 +12,9 @@ public class BuildPreview : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.LeftShift) && _checkToPlace._result == true)
-        {
-           GameObject spawned = Instantiate(_toBuild, transform.position,
-                Quaternion.identity);
-           spawned.transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+        { 
+            Quaternion toRotate = Quaternion.Euler(transform.rotation.eulerAngles); 
+            Instantiate(_toBuild, transform.position, toRotate);
         }
     }
 }

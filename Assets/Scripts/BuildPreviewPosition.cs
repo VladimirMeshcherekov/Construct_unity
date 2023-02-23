@@ -25,24 +25,17 @@ public class BuildPreviewPosition : MonoBehaviour
    }
    void OnForward(Transform dockerObject, int faceDirectionSign)
    {
-      BuildPreview.transform.position =
-         new Vector3(dockerObject.position.x, dockerObject.transform.position.y, dockerObject.transform.position.z +
-            faceDirectionSign * (dockerObject.localScale.z / 2 + BuildPreview.transform.localScale.z / 2));
+      BuildPreview.transform.position = dockerObject.transform.position + (faceDirectionSign * dockerObject.transform.forward);
    }
    
    void OnUp(Transform dockerObject, int faceDirectionSign)
    {
-      BuildPreview.transform.position =
-         new Vector3(dockerObject.position.x,
-            dockerObject.transform.position.y + faceDirectionSign * (dockerObject.localScale.y / 2 + BuildPreview.transform.localScale.y / 2), 
-                  dockerObject.transform.position.z);
+      BuildPreview.transform.position = dockerObject.transform.position + (faceDirectionSign * dockerObject.transform.up);
    }
    
    void OnRight(Transform dockerObject, int faceDirectionSign)
    {
-      BuildPreview.transform.position =
-         new Vector3(dockerObject.position.x +  faceDirectionSign * (dockerObject.localScale.x / 2 + BuildPreview.transform.localScale.x / 2), 
-            dockerObject.transform.position.y, dockerObject.transform.position.z);
+      BuildPreview.transform.position = dockerObject.transform.position + (faceDirectionSign * dockerObject.transform.right);
    }
    
 }

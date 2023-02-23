@@ -18,6 +18,7 @@ public class RotatePreview : MonoBehaviour
 
     private Transform _previewTransform; 
     private int _rotationX = 0, _rotationY = 0;
+    private Vector3 _rotation;
     
     void PreviewGameObjectChanged()
     {
@@ -32,13 +33,15 @@ public class RotatePreview : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.E))
         {
-            _previewTransform.rotation = Quaternion.Euler(_previewTransform.rotation.x + _rotationX, _previewTransform.rotation.y, _previewTransform.rotation.z);
+            _rotation = new Vector3(_rotation.x + 90, _rotation.y, _rotation.z);
+            _previewTransform.rotation = Quaternion.Euler(_rotation);
             _rotationX += 90;
         }        
         
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            _previewTransform.rotation = Quaternion.Euler(_previewTransform.rotation.x, _previewTransform.rotation.y + _rotationY, _previewTransform.rotation.z);
+            _rotation = new Vector3(_rotation.x, _rotation.y+90, _rotation.z);
+            _previewTransform.rotation = Quaternion.Euler(_rotation);
             _rotationY += 90;
         }
         
