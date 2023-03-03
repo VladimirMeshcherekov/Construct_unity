@@ -37,7 +37,7 @@ public class CheckToPlacePreview : MonoBehaviour
 
      
         
-        if (Physics.Raycast(rayPositiveForward, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo2))
+        if (Physics.Raycast(rayPositiveForward, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo2) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f)
         {
             GetCheck(hit, _facesInfo2, 2);
             if (_thisFacesInfo[2] == false)
@@ -46,7 +46,7 @@ public class CheckToPlacePreview : MonoBehaviour
             }
         }        
         
-        if (Physics.Raycast(rayPositiveRight, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo0))
+        if (Physics.Raycast(rayPositiveRight, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo0) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f)
         {
             GetCheck(hit, _facesInfo0, 0);
             if (_thisFacesInfo[0] == false)
@@ -54,7 +54,7 @@ public class CheckToPlacePreview : MonoBehaviour
                 _resultCheck[0] = false;
             }
         }        
-        if (Physics.Raycast(rayNegativeRight, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo3))
+        if (Physics.Raycast(rayNegativeRight, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo3) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f)
         {
             GetCheck(hit, _facesInfo3, 3);
             if (_thisFacesInfo[3] == false)
@@ -63,7 +63,7 @@ public class CheckToPlacePreview : MonoBehaviour
             }
         }
         
-        if (Physics.Raycast(rayNegativeForward, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo5))
+        if (Physics.Raycast(rayNegativeForward, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo5) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f )
         {
             GetCheck(hit, _facesInfo5, 5);
             if (_thisFacesInfo[5] == false)
@@ -72,7 +72,7 @@ public class CheckToPlacePreview : MonoBehaviour
             }
         }        
         
-        if (Physics.Raycast(rayNegativeUp, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo4))
+        if (Physics.Raycast(rayNegativeUp, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo4) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f)
         {
             GetCheck(hit, _facesInfo4, 4);
             if (_thisFacesInfo[4] == false)
@@ -81,7 +81,7 @@ public class CheckToPlacePreview : MonoBehaviour
             }
         }       
         
-        if (Physics.Raycast(rayPositiveUp, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo1))
+        if (Physics.Raycast(rayPositiveUp, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo1) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude < 1.1f)
         {
             GetCheck(hit, _facesInfo1, 1);
             if (_thisFacesInfo[1] == false)
