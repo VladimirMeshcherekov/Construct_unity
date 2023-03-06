@@ -11,7 +11,7 @@ public class PlayerBuild : MonoBehaviour, IControllable
     public void Build()
     {
         GameObject previewCube = _inventory.GetActiveCubePreview().GetComponent<CheckToPlacePreview>().gameObject;
-        if (previewCube.GetComponent<CheckToPlacePreview>()._result == true)
+        if (previewCube.GetComponent<CheckToPlacePreview>().AbleToPlace == true)
         {
             
             Quaternion toRotate = Quaternion.Euler(previewCube.transform.rotation.eulerAngles); 

@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class CheckToPlacePreview : MonoBehaviour
 {
     bool[] _resultCheck = new bool[6];
-    public bool _result = false;
+    public bool AbleToPlace = false;
     private bool[] _thisFacesInfo = new bool[6];
     [SerializeField] private Material _ableMaterial, _unableMaterial;
     
@@ -94,14 +94,14 @@ public class CheckToPlacePreview : MonoBehaviour
         {
             if (_resultCheck[i] == false)
             {
-                _result = false;
+                AbleToPlace = false;
                 break;
             }
 
-            _result = true;
+            AbleToPlace = true;
         }
 
-        if (_result == true)
+        if (AbleToPlace == true)
         {
             gameObject.GetComponent<MeshRenderer>().material = _ableMaterial;
         }

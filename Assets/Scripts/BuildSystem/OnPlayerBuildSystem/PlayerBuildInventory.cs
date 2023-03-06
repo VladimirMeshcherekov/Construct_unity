@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerBuildInventory : MonoBehaviour, ISelectInventoryControllable
 {
@@ -8,6 +10,8 @@ public class PlayerBuildInventory : MonoBehaviour, ISelectInventoryControllable
 
     private BuildPreviewPosition _previewPosition;
     private RotatePreview _rotatePreview;
+    
+    public UnityAction<int> SelectedItemChanged;
 
     private void Start()
     {
@@ -29,6 +33,7 @@ public class PlayerBuildInventory : MonoBehaviour, ISelectInventoryControllable
     void ActiveCubeChanged()
     {
         ChangeActive();
+        SelectedItemChanged?.Invoke(_activeCube);
         _previewPosition.BuildPreview = GetActiveCubePreview();
         _rotatePreview.BuildPreview = GetActiveCubePreview();
     }

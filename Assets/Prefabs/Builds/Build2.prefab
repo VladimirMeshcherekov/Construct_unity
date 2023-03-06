@@ -107,4 +107,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93255b7137d68e3429363d5981886e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CubeFacesInfo: 010001010001
+  _facesInfo: 010001010001
