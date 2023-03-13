@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
 //  0 = x (right), 1 = y (up), 2 = z (forward), 3 = -x  (-right), 4 = -y (-up), 5 = -z (-forward)
 public class CheckToPlacePreview : MonoBehaviour
@@ -11,7 +7,7 @@ public class CheckToPlacePreview : MonoBehaviour
     public bool AbleToPlace = false;
     private bool[] _thisFacesInfo = new bool[6];
     [SerializeField] private Material _ableMaterial, _unableMaterial;
-    
+    private bool _isConnetedToDocker = false;
     private void Start()
     {
         _thisFacesInfo = gameObject.GetComponent<FacesInfo>()._facesInfo;
@@ -40,54 +36,30 @@ public class CheckToPlacePreview : MonoBehaviour
         if (Physics.Raycast(rayPositiveForward, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo2) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f)
         {
             GetCheck(hit, _facesInfo2, 2);
-            if (_thisFacesInfo[2] == false)
-            {
-                _resultCheck[2] = false;
-            }
         }        
         
         if (Physics.Raycast(rayPositiveRight, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo0) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f)
         {
             GetCheck(hit, _facesInfo0, 0);
-            if (_thisFacesInfo[0] == false)
-            {
-                _resultCheck[0] = false;
-            }
         }        
         if (Physics.Raycast(rayNegativeRight, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo3) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f)
         {
             GetCheck(hit, _facesInfo3, 3);
-            if (_thisFacesInfo[3] == false)
-            {
-                _resultCheck[3] = false;
-            }
         }
         
         if (Physics.Raycast(rayNegativeForward, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo5) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f )
         {
             GetCheck(hit, _facesInfo5, 5);
-            if (_thisFacesInfo[5] == false)
-            {
-                _resultCheck[5] = false;
-            }
         }        
         
         if (Physics.Raycast(rayNegativeUp, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo4) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude <  1.1f)
         {
             GetCheck(hit, _facesInfo4, 4);
-            if (_thisFacesInfo[4] == false)
-            {
-                _resultCheck[4] = false;
-            }
         }       
         
         if (Physics.Raycast(rayPositiveUp, out hit) && hit.collider.gameObject.TryGetComponent(out FacesInfo _facesInfo1) &&  (hit.collider.gameObject.transform.position-gameObject.transform.position).magnitude < 1.1f)
         {
             GetCheck(hit, _facesInfo1, 1);
-            if (_thisFacesInfo[1] == false)
-            {
-                _resultCheck[1] = false;
-            }
         }
 
         for (int i = 0; i < _resultCheck.Length; i++)
@@ -101,6 +73,11 @@ public class CheckToPlacePreview : MonoBehaviour
             AbleToPlace = true;
         }
 
+        if (_isConnetedToDocker == false)
+        {
+            AbleToPlace = false;
+        }
+
         if (AbleToPlace == true)
         {
             gameObject.GetComponent<MeshRenderer>().material = _ableMaterial;
@@ -109,40 +86,124 @@ public class CheckToPlacePreview : MonoBehaviour
         {
             gameObject.GetComponent<MeshRenderer>().material = _unableMaterial;
         }
+
+        _isConnetedToDocker = false;
     }
 
     void GetCheck(RaycastHit hit, FacesInfo _dockerFacesInfo, int rayFaceNum)
     {
         Transform hitTransform = hit.collider.gameObject.transform;
-        if (hit.normal == hitTransform.forward)
+        
+        if (hit.normal == hitTransform.forward) //checking direction
         {
-            _resultCheck[rayFaceNum] = _dockerFacesInfo._facesInfo[2];
-            
+            if (_dockerFacesInfo._facesInfo[2] == _thisFacesInfo[rayFaceNum]) //checking ability to build (false == false or true == true but not false == true)
+            {
+                _resultCheck[rayFaceNum] = true;
+               
+                if (_thisFacesInfo[rayFaceNum] && _isConnetedToDocker == false) //checking for ability to connect (required minimum 1 place to connect)
+                {
+                    _isConnetedToDocker = true;
+                }
+                return;
+            }
+            else
+            {
+                _resultCheck[rayFaceNum] = false;
+                return;
+            }
         }  
         if (hit.normal == -hitTransform.forward)
         {
-            _resultCheck[rayFaceNum] = _dockerFacesInfo._facesInfo[5];
-            
+            if (_dockerFacesInfo._facesInfo[5] == _thisFacesInfo[rayFaceNum])
+            {
+                _resultCheck[rayFaceNum] = true;
+               
+                if (_thisFacesInfo[rayFaceNum] && _isConnetedToDocker == false)
+                {
+                    _isConnetedToDocker = true;
+                }
+                return;
+            }
+            else
+            {
+                _resultCheck[rayFaceNum] = false;
+                return;
+            }
         }
+        
         if (hit.normal == hitTransform.right)
         {
-            _resultCheck[rayFaceNum] = _dockerFacesInfo._facesInfo[0];
-            
+            if (_dockerFacesInfo._facesInfo[0] == _thisFacesInfo[rayFaceNum])
+            {
+                _resultCheck[rayFaceNum] = true;
+                
+                if (_thisFacesInfo[rayFaceNum] && _isConnetedToDocker == false)
+                {
+                    _isConnetedToDocker = true;
+                }
+                return;
+            }
+            else
+            {
+                _resultCheck[rayFaceNum] = false;
+                return;
+            }
         }
+        
         if (hit.normal == -hitTransform.right)
         {
-            _resultCheck[rayFaceNum] = _dockerFacesInfo._facesInfo[3];
-            
-        }        
+            if (_dockerFacesInfo._facesInfo[3] == _thisFacesInfo[rayFaceNum])
+            {
+                _resultCheck[rayFaceNum] = true;
+               if (_thisFacesInfo[rayFaceNum] && _isConnetedToDocker == false)
+                {
+                    _isConnetedToDocker = true;
+                }
+                return;
+            }
+            else
+            {
+                _resultCheck[rayFaceNum] = false;
+                return;
+            }
+        }     
+        
         if (hit.normal == hitTransform.up)
         {
-            _resultCheck[rayFaceNum] = _dockerFacesInfo._facesInfo[1];
-            
-        }        
+            if (_dockerFacesInfo._facesInfo[1] == _thisFacesInfo[rayFaceNum])
+            {
+                _resultCheck[rayFaceNum] = true;
+                if (_thisFacesInfo[rayFaceNum] && _isConnetedToDocker == false)
+                {
+                    _isConnetedToDocker = true;
+                }
+                return;
+            }
+            else
+            {
+                _resultCheck[rayFaceNum] = false;
+                return;
+            }
+        }  
+        
         if (hit.normal == -hitTransform.up)
         {
-            _resultCheck[rayFaceNum] = _dockerFacesInfo._facesInfo[4];
-            
+            if (_dockerFacesInfo._facesInfo[4] == _thisFacesInfo[rayFaceNum])
+            {
+               
+                _resultCheck[rayFaceNum] = true;
+                if (_thisFacesInfo[rayFaceNum] && _isConnetedToDocker == false)
+                {
+                    _isConnetedToDocker = true;
+                }
+                return;
+            }
+            else
+            { 
+                _resultCheck[rayFaceNum] = false;
+                return;
+            }
+
         }
         
     }
